@@ -4,7 +4,6 @@ import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
 import org.mycompany.servimark.core.dto.DepartamentDTO;
 import org.mycompany.servimark.core.dto.MunicipalityDTO;
-import org.mapstruct.factory.Mappers;
 import org.mycompany.servimark.core.models.Departament;
 import org.mycompany.servimark.core.models.Municipality;
 

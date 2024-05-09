@@ -1,33 +1,34 @@
 package org.mycompany.servimark.service.model;
 
 import jakarta.persistence.*;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
-
 import java.time.Instant;
+import org.mycompany.servimark.user.model.User;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
+@Data
 @Entity
-@Table(name = "categories")
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class Category {
+@Table(name = "user_service")
+public class UserService {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
-    private Long id;
+    Long id;
 
-    @Column(name = "name", nullable = false)
-    private String name;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "user_id", nullable = false)
+    User user;
 
-    @Column(name = "slug", nullable = false)
-    private String slug;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "service_id", nullable = false)
+    Service service;
 
     @Column(name = "created_at")
-    private Instant createdAt;
+    Instant createdAt;
 
     @Column(name = "updated_at")
-    private Instant updatedAt;
+    Instant updatedAt;
 
     public Long getId() {
         return id;
@@ -37,20 +38,20 @@ public class Category {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public User getUser() {
+        return user;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    public String getSlug() {
-        return slug;
+    public Service getService() {
+        return service;
     }
 
-    public void setSlug(String slug) {
-        this.slug = slug;
+    public void setService(Service service) {
+        this.service = service;
     }
 
     public Instant getCreatedAt() {
@@ -68,5 +69,4 @@ public class Category {
     public void setUpdatedAt(Instant updatedAt) {
         this.updatedAt = updatedAt;
     }
-
 }

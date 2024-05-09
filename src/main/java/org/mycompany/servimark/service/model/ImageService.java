@@ -6,10 +6,13 @@ import lombok.Setter;
 
 import java.time.Instant;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Getter
 @Setter
 @Entity
 @Table(name = "image_services")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class ImageService {
     @Id
     @Column(name = "id", nullable = false)

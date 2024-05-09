@@ -1,16 +1,21 @@
 package org.mycompany.servimark.service.mapper;
 
 import java.math.BigDecimal;
+import java.util.List;
 import javax.annotation.processing.Generated;
 import org.mycompany.servimark.core.models.Municipality;
 import org.mycompany.servimark.service.ServiceDTO;
 import org.mycompany.servimark.service.model.Category;
+import org.mycompany.servimark.service.model.ImageService;
 import org.mycompany.servimark.service.model.Service;
+import org.mycompany.servimark.service.model.ServiceStatus;
+import org.mycompany.servimark.service.model.UserService;
+import org.mycompany.servimark.user.model.User;
 import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-05-06T20:14:30-0500",
+    date = "2024-05-08T19:33:06-0500",
     comments = "version: 1.5.5.Final, compiler: Eclipse JDT (IDE) 3.38.0.v20240417-1011, environment: Java 17.0.10 (Eclipse Adoptium)"
 )
 @Component
@@ -24,12 +29,13 @@ public class ServiceMapperImpl implements ServiceMapper {
 
         Service service = new Service();
 
-        service.setCategory( serviceDTO.category() );
-        service.setDescription( serviceDTO.description() );
         service.setId( serviceDTO.id() );
-        service.setMunicipality( serviceDTO.municipality() );
+        service.setServiceStatus( serviceDTO.serviceStatus() );
         service.setName( serviceDTO.name() );
+        service.setDescription( serviceDTO.description() );
         service.setPrice( serviceDTO.price() );
+        service.setCategory( serviceDTO.category() );
+        service.setMunicipality( serviceDTO.municipality() );
 
         return service;
     }
@@ -44,6 +50,7 @@ public class ServiceMapperImpl implements ServiceMapper {
         String name = null;
         String description = null;
         BigDecimal price = null;
+        ServiceStatus serviceStatus = null;
         Category category = null;
         Municipality municipality = null;
 
@@ -51,11 +58,31 @@ public class ServiceMapperImpl implements ServiceMapper {
         name = service.getName();
         description = service.getDescription();
         price = service.getPrice();
+        serviceStatus = service.getServiceStatus();
         category = service.getCategory();
         municipality = service.getMunicipality();
 
-        ServiceDTO serviceDTO = new ServiceDTO( id, name, description, price, category, municipality );
+        User user = null;
+        List<ImageService> images = null;
+
+        ServiceDTO serviceDTO = new ServiceDTO( id, name, description, price, serviceStatus, category, municipality, user, images );
 
         return serviceDTO;
+    }
+
+    @Override
+    public UserService userServiceDTOToUserService(ServiceDTO serviceDTO) {
+        if ( serviceDTO == null ) {
+            return null;
+        }
+
+        UserService userService = new UserService();
+
+        if ( serviceDTO.id() != null ) {
+            userService.setId( Long.parseLong( serviceDTO.id() ) );
+        }
+        userService.setUser( serviceDTO.user() );
+
+        return userService;
     }
 }
